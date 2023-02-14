@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>for my dear</title>
+        <embed src="./css/static/bg.mp3" autostart="true" loop="1" hidden="true"></embed>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        
+        <div id="content">
+            <div id="something" style="height: 150px;">
+                <h1 style="margin-left: 100px;color: pink;">
+                    猪猪情人节快乐呀~
+                    
+                </h1>
+                <h1 style="margin-left: 100px;color: pink;">
+                    可以一直当我的🌙嘛
+                </h1>
+            </div>
+            <div id="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <p></p>
+            </div>
+            <!-- <div id="something" style="height: 100px;">
+                <h1 style="margin-top: 100px;margin-left: 100px;color: pink;">
+                    
+                </h1>
+            </div> -->
+            <!-- 流星 -->
+            <section>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </section>
+        </div>
+        
+        
+        
+    </body>
+
+    <script id="jqbb" src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+
+    <script>
+    setTimeout(init,100);
+    function init(){
+	    var obox = document.getElementById('box'),
+		    aDiv = obox.getElementsByTagName('div');
+		
+		for(var i = 0; i < aDiv.length; i++) {
+			aDiv[i].style.background = "url(css/static/"+(i+1)+".jpg) center/cover";
+			aDiv[i].style.transform = "rotateY("+(i*36)+"deg) translate3d(0,0,350px)";
+			aDiv[i].style.transition = "transform 1s "+(aDiv.length-i)*0.2+"s";
+		}
+	    var sX,
+		    sY,
+		    nX,
+		    nY,
+		    desX = 0,
+		    desY = 0,
+		    tX = 0,
+		    tY = 10,
+		    index = 0;//滚轮初始值
+	    document.onmousedown = function(e){
+		    clearInterval(obox.timer);
+		    e = e || window.event;
+		    var sX = e.clientX,
+			    sY = e.clientY;
+			    this.onmousemove = function(e){
+				    e = e || window.event;
+				    var nX = e.clientX,
+					    nY = e.clientY;
+					    // 当前点的坐标和前一点的坐标差值
+					    desX = nX - sX;
+					    desY = nY - sY;
+                        tX += desX*0.1; 
+                        tY += desY*0.1;
+
+					    obox.style.transform = "rotateX("+(-tY)+"deg) rotateY("+tX+"deg)";
+					    sX = nX;
+					    sY = nY;
+			    }
+			    this.onmouseup = function(){
+				this.onmousemove = this.onmouseup = null;
+				obox.timer = setInterval(function(){
+					desX *= 0.95;
+					desY *= 0.95;
+					tX += desX*0.1;
+					tY += desY*0.1;
+					obox.style.transform = "rotateX("+(-tY)+"deg) rotateY("+tX+"deg)";
+					if (Math.abs(desX)<0.5 && Math.abs(desY)<0.5) {
+						clearInterval(obox.timer);
+					}
+				},13);
+			}
+		return false;
+	}
+	//滚轮放大缩小
+	mousewheel(document,function(e){
+		e = e || window.event;
+		var d = e.wheelDelta/120 || -e.detail/3;
+			if (d>0) {
+				index-=20;
+			}else{
+				index+=30;
+			}
+			(index<(-1050)&&(index=(-1050)));
+		document.body.style.perspective = 1000 + index + "px";
+	})
+	function mousewheel(obj,fn){
+		document.onmousewheel===null?obj.onmousewheel=fn:addEvent(obj,"DOMMouseScroll",fn)
+	}
+	function addEvent(obj,eName,fn){
+		obj.attachEvent?obj.attachEvent("on"+eName,fn):obj.addEventListener(eName,fn);
+	}
+}
+</script>
+</html>
